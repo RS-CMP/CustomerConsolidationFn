@@ -23,9 +23,7 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
-    <Folder Include="Domain\" />
     <Folder Include="Docs\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
