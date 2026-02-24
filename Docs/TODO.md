@@ -35,11 +35,11 @@
 ### 5. Project Structure & Clean-up
 - [x] Ensure files are organized per assignment structure.
 - [x] Exclude data generator script from main project compilation.
-- [ ] Document unmapped country handling in code comments.
+- [x] Document unmapped country handling in code comments.
 
 ### 6. Final Review
-- [ ] Test function with generated data.
-- [ ] Review code for clarity, maintainability, and determinism.
+- [x] Test function with generated data.
+- [x] Review code for clarity, maintainability, and determinism.
 - [ ] Prepare for interviewer walkthrough.
 
 ---
