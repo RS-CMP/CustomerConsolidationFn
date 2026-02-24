@@ -19,12 +19,13 @@
 - [x] Implement static country mapping dictionary in `/Domain/`.
 
 ### 3. Service Logic
-- [ ] Implement streaming NDJSON reader in `/Services/`.
-- [ ] Filter records by `lastModifiedUtc >= cutoffDate`.
-- [ ] Normalize country name to ISO2 code, preserve original name.
-- [ ] Handle unmapped countries (use "??", count occurrences).
-- [ ] Write consolidated NDJSON output to `/Data/consolidated.ndjson`.
-- [ ] Track and summarize records read/written and unmapped count.
+- [x] Implement streaming NDJSON reader in `/Services/`.
+- [x] Filter records by `lastModifiedUtc >= cutoffDate`.
+- [x] Normalize country name to ISO2 code, preserve original name.
+- [x] Handle unmapped countries (use "??", count occurrences).
+- [x] Write consolidated NDJSON output to `/Data/consolidated.ndjson`.
+- [x] Track and summarize records read/written and unmapped count.
+- [x] Ensure deterministic output for identical input and configuration.
 
 ### 4. Azure Function Entrypoint
 - [ ] Implement HTTP-triggered function in `/Functions/ConsolidateFunction.cs`.
