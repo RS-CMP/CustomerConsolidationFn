@@ -14,9 +14,9 @@
 - [x] Verify files are present in `/Data/`.
 
 ### 2. Domain Models
-- [ ] Create `CustomerRecord` model in `/Domain/`.
-- [ ] Create `NormalizedCustomerRecord` model in `/Domain/`.
-- [ ] Implement static country mapping dictionary in `/Domain/`.
+- [x] Create `CustomerRecord` model in `/Domain/`.
+- [x] Create `NormalizedCustomerRecord` model in `/Domain/`.
+- [x] Implement static country mapping dictionary in `/Domain/`.
 
 ### 3. Service Logic
 - [ ] Implement streaming NDJSON reader in `/Services/`.
