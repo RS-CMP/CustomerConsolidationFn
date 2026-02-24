@@ -1,19 +1,55 @@
+# CustomerConsolidationFn
+
+## Run Instructions
+
+1. **Requirements:**
+   - .NET 8 SDK
+   - Azure Functions Core Tools (for local function testing)
+   - Input files: `Data/output1.ndjson` and `Data/output2.ndjson` (NDJSON format)
+
+2. **Build and Run Locally:**
+   - Open the solution in Visual Studio.
+   - Build the project.
+   - Start the Azure Functions host (F5 or `func start`).
+
+3. **Trigger the Function:**
+   - Send a POST request to `http://localhost:<port>/api/ConsolidateFunction` with a JSON body:
+     ```json
+     { "cutoffDate": "2024-05-01" }
+     ```
+   - Use PowerShell:
+     ```powershell
+     Invoke-RestMethod -Uri "http://localhost:<port>/api/ConsolidateFunction" -Method POST -Headers @{ "Content-Type" = "application/json" } -Body '{ "cutoffDate": "2024-05-01" }'
+     ```
+
+4. **Output:**
+   - Consolidated NDJSON file is written to `Data/consolidated.ndjson`.
+   - Function returns a summary of records processed.
+
+## Assumptions
+
+- Input files are NDJSON, each line is a JSON customer record.
+- All records passing the cutoff date are included in the output, regardless of country mapping.
+- Unmapped countries have `CountryIso2` set to `null`.
+- Output is deterministic: records are sorted by `Id`.
+- Memory usage is efficient for moderate data sizes; for very large datasets, external sorting may be required.
+- Country mapping is limited; unmapped countries are counted in the summary.
+
+## Sample Error Handling
+- If `cutoffDate` is missing or invalid, the function returns a JSON error with HTTP 400.
+
+## Project Structure
+- Domain models: `/Domain/`
+- Service logic: `/Services/`
+- Azure Function: `/Functions/`
+- Data files: `/Data/`
+- Documentation: `/Docs/`
+
+---
+
 # Customer Data Consolidation Function
 
 This project is an Azure Functions solution for an integration coding challenge. Its purpose is to consolidate customer records from two independent NDJSON source files, simulating Salesforce exports, into a single normalized, filtered dataset with summary statistics.
-
----
-
-## Project Structure
-
-- **Functions/**: Contains the Azure Function HTTP trigger (`ConsolidateFunction.cs`), the entry point for processing.
-- **Services/**: Holds business logic for streaming reads, transformation, filtering, and consolidation.
-- **Domain/**: Models and static mapping data for customer and country information.
-- **Data/**: Stores input NDJSON files (`output1.ndjson`, `output2.ndjson`), the output file (`consolidated.ndjson`), and utility scripts (such as the sample data generator).
-- **GenerateCustomerData.cs**: A standalone script (excluded from the main project), used for generating sample customer data as NDJSON files for testing and development.
-- **README.md**: This documentation.
-
----
 
 ## Function Overview
 
@@ -26,11 +62,9 @@ This project is an Azure Functions solution for an integration coding challenge.
     - Outputs summary statistics (records read per source, records written, unmapped countries).
 - **Output**: One NDJSON file with consolidated records, plus a summary returned via HTTP response.
 
----
-
 ## Sample Data Generator
 
-The `/Data/GenerateCustomerData.cs` script is provided for generating sample NDJSON files (`output1.ndjson` and `output2.ndjson`).  
+The `/Data/GenerateCustomerData.cs` script is provided for generating sample NDJSON files (`output1.ndjson` and `output2.ndjson`).
 > **Note:** This script is not part of the Azure Function project and is excluded from the build, so it doesn't conflict with the main codebase. It may be run independently to produce fresh demo data.
 
 ### Running the Data Generator
@@ -53,40 +87,3 @@ dotnet tool install -g dotnet-script
    ```
    The `--count` argument controls how many records to generate per source (adjust as needed).
 3. After running, `output1.ndjson` and `output2.ndjson` will be generated in the `/Data/` folder.
-
-### Script Adaptations for dotnet-script
-
-When adapting this script for use with dotnet-script, two changes were necessary:
-
-1. **Use `Args` Instead of `args`:**
-    - Standard console apps use `args` for command line arguments.
-    - dotnet-script expects `Args` (capital A), so all references were updated accordingly.
-
-2. **Convert `Args` to an Array for Indexing and Length:**
-    - dotnet-script's `Args` is an `IList<string>`, not an array, so it was converted to an array with `Args.ToArray()` for compatibility with methods like `Array.IndexOf()` and `.Length`.
-
-**Adapted argument handler:**
-```csharp
-int GetArg(string name, int defaultValue)
-{
-    var argsArr = Args.ToArray();
-    var index = Array.IndexOf(argsArr, name);
-    if (index >= 0 && index < argsArr.Length - 1)
-        return int.Parse(argsArr[index + 1]);
-    return defaultValue;
-}
-```
-
----
-
-## Assignment Guidelines
-
-- No tests or cloud resources required.
-- All processing and file IO is local and memory-efficient.
-- Project is organized for clarity and maintainability.
-
----
-
-## Summary
-
-This solution demonstrates data ingestion, normalization, consolidation, and summary reporting for large customer datasets using Azure Functions, following robust design practices. The standalone data generator enables flexible testing and development.
