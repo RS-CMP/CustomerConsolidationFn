@@ -10,7 +10,12 @@ namespace CustomerConsolidationFn.Domain
             { "Canada", "CA" },
             { "United Kingdom", "GB" },
             { "Germany", "DE" },
-            { "France", "FR" }
+            { "France", "FR" },
+            { "China", "CN" },
+            { "India", "IN" },
+            { "Japan", "JP" },
+            { "Australia", "AU" },
+            { "Brazil", "BR" }
         };
     }
 }

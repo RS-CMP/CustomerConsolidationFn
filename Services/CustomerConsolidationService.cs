@@ -24,8 +24,9 @@ namespace CustomerConsolidationFn.Services
             int recordsReadFromSource1 = 0;
             int recordsReadFromSource2 = 0;
 
-            // Always output to Data/consolidated.ndjson
-            var outputFilePath = "Data/consolidated.ndjson";
+
+            // Use the resolved output path provided by the caller (see function for path resolution logic)
+            var outputFilePath = outputPath ?? "Data/consolidated.ndjson";
 
             var normalizedRecords = new List<NormalizedCustomerRecord>();
 
@@ -49,8 +50,8 @@ namespace CustomerConsolidationFn.Services
 
                     // Normalize country
                     var countryOriginal = record.Country;
-                    var countryIso2 = CountryMapping.NameToIso2.TryGetValue(countryOriginal, out var iso2) ? iso2 : "??";
-                    if (countryIso2 == "??") unmappedCountryCount++;
+                    var countryIso2 = CountryMapping.NameToIso2.TryGetValue(countryOriginal, out var iso2) ? iso2 : null;
+                    if (countryIso2 == null) unmappedCountryCount++;
 
                     var normalized = new NormalizedCustomerRecord
                     {

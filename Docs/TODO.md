@@ -28,9 +28,9 @@
 - [x] Ensure deterministic output for identical input and configuration.
 
 ### 4. Azure Function Entrypoint
-- [ ] Implement HTTP-triggered function in `/Functions/ConsolidateFunction.cs`.
-- [ ] Parse `cutoffDate` from request.
-- [ ] Call service logic and return summary in HTTP response.
+- [x] Implement HTTP-triggered function in `/Functions/ConsolidateFunction.cs`.
+- [x] Parse `cutoffDate` from request.
+- [x] Call service logic and return summary in HTTP response.
 
 ### 5. Project Structure & Clean-up
 - [x] Ensure files are organized per assignment structure.
